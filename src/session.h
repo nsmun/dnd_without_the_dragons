@@ -3,7 +3,7 @@
 class session {
     private:
 
-    std::string playername
+    std::string playername;
 
     public:
 
