@@ -1,12 +1,23 @@
 #include "include.h"
-
-
+#include "csvparser.h"
 
 int main() { // int functions returns integers
     /*
         This is a multi line comment
     */
     std::cout << "Welcome to D&D (without the dragons)\n" << std::endl; // To go to next line do "\n" or "std::endl"
+
+    Spreadsheet myspreadcheek("items.csv");
+
+    std::cout << myspreadcheek.get_cell(0, 0) << std::endl;
+    std::cout << myspreadcheek.get_cell(-1, 0) << std::endl;
+    std::cout << myspreadcheek.get_cell(0, -1) << std::endl;
+    std::cout << myspreadcheek.get_cell(1110, 110) << std::endl;
+    std::cout << myspreadcheek.get_cell("name", 0) << std::endl;
+    std::cout << myspreadcheek.get_cell("stat", 0) << std::endl;
+    std::cout << myspreadcheek.get_cell("ppppppp", 0) << std::endl;
+
+
     return 0;
 }
 
