@@ -1,6 +1,18 @@
 #include "csvparser.h"
 
 
+std::string check_type (const std::string& s) {
+    if (s.empty()) return "error";
+    int dot_found = 0;
+    for (int i = 0; i < s.length(); i++) {
+        if (s[i] == 46) dot_found ++;
+        else if (s[i] < 48 || s[i] > 57) return "string";
+        if (dot_found > 1) return "string";
+    }
+    if (dot_found == 1) return "double";
+    return "int";
+}
+
 
 bool Spreadsheet::parser () {
     FILE* csv_file = fopen(file_path.c_str(), "r");
@@ -12,6 +24,9 @@ bool Spreadsheet::parser () {
 
     int character;
     bool done = false;
+    bool column_names_passed = !using_column_names;
+    bool column_types_passed = false;
+    int column_no = 0;
     std::vector<std::string> row;
     std::string cell;
 
@@ -26,12 +41,47 @@ bool Spreadsheet::parser () {
             // 10 in Ascii is End of line (\n)
             case 10:
                 row.push_back(cell);
-                cell.clear();
                 rows.push_back(row);
+                
+                
+                if (column_names_passed) {
+                    if (!column_types_passed) column_types.push_back(check_type(cell));
+                    else {
+                        if (check_type(cell) != column_types.back()) {
+                            fclose(csv_file);
+                            std::cerr << "Column type did not match expected type" << std::endl;
+                            return false;
+                        }
+                        if (column_types.size() != column_no + 1 || column_types.size() != rows.front().size()) {
+                            fclose(csv_file);
+                            std::cerr << "Column size did not match expected length" << std::endl;
+                            return false;
+                        }
+                    }
+                    column_types_passed = true;
+                }
+
+                column_no = 0;
+                column_names_passed = true;
+                cell.clear();
                 row.clear();
+
                 break;
             // 44 in Ascii is ','
             case 44:
+
+                //std::cout << cell << " " << check_type(cell) << std::endl;
+                if (column_names_passed) {
+                    if (!column_types_passed) column_types.push_back(check_type(cell));
+                    else {
+                        if (check_type(cell) != column_types[column_no]) {
+                            fclose(csv_file);
+                            std::cerr << "Column type did not match expected type" << std::endl;
+                            return false;
+                        }
+                    }
+                }
+                column_no ++;
                 row.push_back(cell);
                 cell.clear();
                 break;

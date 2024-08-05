@@ -5,8 +5,9 @@ class Spreadsheet{
     private:
     std::vector<std::vector<std::string>> rows;
     std::vector<std::string> column_names;
+    std::vector<std::string> column_types;
 
-    
+
     std::string file_path;
     bool using_column_names;
     bool parser ();
