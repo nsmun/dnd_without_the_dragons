@@ -144,4 +144,6 @@ std::string Spreadsheet::get_cell (std::string column_name, int row){
     return rows[row][column];
 }
 
-// Spreadsheet my_spreadsheet("items.csv");
+int Spreadsheet::rows_size() {
+    return rows.size();
+}

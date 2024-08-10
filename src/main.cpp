@@ -8,7 +8,7 @@ int main() { // int functions returns integers
     */
     std::cout << "Welcome to D&D (without the dragons)\n" << std::endl; // To go to next line do "\n" or "std::endl"
 
-    Spreadsheet myspreadcheek("monsterstats.csv");
+    Spreadsheet myspreadcheek("items.csv");
 
     std::cout << myspreadcheek.get_cell(0, 0) << std::endl;
     std::cout << myspreadcheek.get_cell(-1, 0) << std::endl;

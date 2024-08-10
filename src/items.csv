@@ -5,7 +5,7 @@ weapon,Longsword,9,2,5,20,0
 weapon,Spear, 7,6,8,10,0
 weapon,Whip,3,10,11,5,0
 weapon,Bomb,100,1,1,15,1
-weapon,Holy_handgrenade,150,1,1,20,0
+weapon,Holy_handgrenade,150,1,1,20,1
 armour,Helmet,30,4,6,5,0
 armour,Chestplate,50,3,4,25,0
 armour,Leggings,40,3,6,20,0

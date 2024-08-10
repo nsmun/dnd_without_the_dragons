@@ -17,6 +17,7 @@ class Spreadsheet{
     Spreadsheet (std::string path, bool column_names);
     std::string get_cell (int column, int row);
     std::string get_cell (std::string column_name, int row);
+    int rows_size();
 
 };
 
