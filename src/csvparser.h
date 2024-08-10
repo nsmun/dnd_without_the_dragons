@@ -7,7 +7,6 @@ class Spreadsheet{
     std::vector<std::string> column_names;
     std::vector<std::string> column_types;
 
-
     std::string file_path;
     bool using_column_names;
     bool parser ();
@@ -18,7 +17,6 @@ class Spreadsheet{
     Spreadsheet (std::string path, bool column_names);
     std::string get_cell (int column, int row);
     std::string get_cell (std::string column_name, int row);
-
 
 };
 

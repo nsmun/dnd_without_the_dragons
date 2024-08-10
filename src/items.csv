@@ -1,9 +1,9 @@
 type,name,stat,wear_min,wear_max,mass,stackable
-weapon,Shortsword,20,5,10,5,0
-weapon,Axe,20,6,7,10,0
-weapon,Longsword,50,2,5,20,0
-weapon,Spear,25,6,8,10,0
-weapon,Whip,15,6,10,5,0
+weapon,Shortsword,6,5,10,5,0
+weapon,Axe,8,6,7,10,0
+weapon,Longsword,9,2,5,20,0
+weapon,Spear, 7,6,8,10,0
+weapon,Whip,3,10,11,5,0
 weapon,Bomb,100,1,1,15,1
 weapon,Holy_handgrenade,150,1,1,20,0
 armour,Helmet,30,4,6,5,0

@@ -13,7 +13,6 @@ std::string check_type (const std::string& s) {
     return "int";
 }
 
-
 bool Spreadsheet::parser () {
     FILE* csv_file = fopen(file_path.c_str(), "r");
 
@@ -27,9 +26,9 @@ bool Spreadsheet::parser () {
     bool column_names_passed = !using_column_names;
     bool column_types_passed = false;
     int column_no = 0;
+    int column_max = -1;
     std::vector<std::string> row;
     std::string cell;
-
 
     while (done == false) {
         character = std::getc(csv_file);
@@ -40,9 +39,15 @@ bool Spreadsheet::parser () {
                 break;
             // 10 in Ascii is End of line (\n)
             case 10:
+                if (column_max < 0) column_max = column_no;
+                else if (column_max != column_no){
+                    fclose(csv_file);
+                    std::cerr << "Column size did not match expected length" << std::endl;
+                    return false;
+                }
+
                 row.push_back(cell);
                 rows.push_back(row);
-                
                 
                 if (column_names_passed) {
                     if (!column_types_passed) column_types.push_back(check_type(cell));
@@ -50,11 +55,6 @@ bool Spreadsheet::parser () {
                         if (check_type(cell) != column_types.back()) {
                             fclose(csv_file);
                             std::cerr << "Column type did not match expected type" << std::endl;
-                            return false;
-                        }
-                        if (column_types.size() != column_no + 1 || column_types.size() != rows.front().size()) {
-                            fclose(csv_file);
-                            std::cerr << "Column size did not match expected length" << std::endl;
                             return false;
                         }
                     }
@@ -69,8 +69,12 @@ bool Spreadsheet::parser () {
                 break;
             // 44 in Ascii is ','
             case 44:
+                if (column_max > 0 && column_no > column_max){
+                    fclose(csv_file);
+                    std::cerr << "Column size did not match expected length" << std::endl;
+                    return false;
+                }
 
-                //std::cout << cell << " " << check_type(cell) << std::endl;
                 if (column_names_passed) {
                     if (!column_types_passed) column_types.push_back(check_type(cell));
                     else {
@@ -110,17 +114,16 @@ bool Spreadsheet::parser () {
     return true;
 }
 
-
 Spreadsheet::Spreadsheet(std::string path) {
     file_path = path;
     using_column_names = true;
-    parser();
+    if (!parser()) rows.clear();
 }
 
 Spreadsheet::Spreadsheet(std::string path, bool column_names) {
     file_path = path;
     using_column_names = column_names;
-    parser();
+    if (!parser()) rows.clear();
 }
 
 std::string Spreadsheet::get_cell (int column, int row) {
@@ -128,12 +131,7 @@ std::string Spreadsheet::get_cell (int column, int row) {
     if (column < 0 || column >= rows.front().size()) return "";
     if (row < 0 || row >= rows.size()) return "";
     return rows[row][column];
-
 }
-
-
-
-
 
 std::string Spreadsheet::get_cell (std::string column_name, int row){
     if (rows.empty()) return "";
@@ -145,6 +143,5 @@ std::string Spreadsheet::get_cell (std::string column_name, int row){
     if (row < 0 || row >= rows.size()) return "";
     return rows[row][column];
 }
-
 
 // Spreadsheet my_spreadsheet("items.csv");

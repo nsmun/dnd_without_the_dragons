@@ -1,5 +1,5 @@
-name,health,damage
-GiantRat,50,20
-Goblin,100,20
-Ghoul,150,40
-Ghost,200,50
+name,health,damage_adder
+GiantRat,19,10
+Goblin,22,15
+Ghoul,34,20
+Ghost,56,25
