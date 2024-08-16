@@ -1,5 +1,6 @@
 #include "include.h"
 #include "csvparser.h"
+#include "storage.h"
 
 
 int main() { // int functions returns integers
@@ -17,6 +18,8 @@ int main() { // int functions returns integers
     std::cout << myspreadcheek.get_cell("name", 0) << std::endl;
     std::cout << myspreadcheek.get_cell("stat", 0) << std::endl;
     std::cout << myspreadcheek.get_cell("ppppppp", 0) << std::endl;
+
+    Storage mystoragename("inventory");
 
     return 0;
 }
